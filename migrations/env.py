@@ -19,8 +19,8 @@ vbwd_backend_root = os.path.abspath(os.path.join(current_dir, "../../.."))
 sys.path.insert(0, vbwd_backend_root)
 
 # Import config and models
-from src.config import get_database_url
-from src.extensions import db
+from src.config import get_database_url  # noqa: E402
+from src.extensions import db  # noqa: E402
 
 # Import all Taro models so Alembic can detect them
 from plugins.taro.src.models import (

@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# flake8: noqa: E501
 """Generate SVG images for all 78 tarot cards."""
 import os
 from pathlib import Path
