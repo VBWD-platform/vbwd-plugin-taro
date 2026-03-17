@@ -55,6 +55,7 @@ class PromptService:
             FileNotFoundError: If file doesn't exist
             json.JSONDecodeError: If JSON is invalid
         """
+        assert self.prompts_file is not None
         if not os.path.exists(self.prompts_file):
             raise FileNotFoundError(
                 f"Prompt file not found: {self.prompts_file}\n"
@@ -179,6 +180,7 @@ class PromptService:
         Raises:
             FileNotFoundError: If .dist file doesn't exist
         """
+        assert self.prompts_file is not None
         dist_file = self.prompts_file.replace(".json", ".json.dist")
         if not os.path.exists(dist_file):
             raise FileNotFoundError(

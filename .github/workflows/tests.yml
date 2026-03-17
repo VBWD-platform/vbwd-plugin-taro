@@ -66,6 +66,7 @@ jobs:
 
       # ── 4. Start docker compose stack (API + postgres + redis) ────────────
       - name: Start services
+        id: start-services
         working-directory: vbwd-backend
         run: docker compose up -d --build
 
@@ -98,7 +99,7 @@ jobs:
 
       # ── 7. Integration tests ───────────────────────────────────────────────
       - name: Run integration tests
-        if: always()
+        if: steps.start-services.conclusion == 'success'
         working-directory: vbwd-backend
         run: |
           if [ -d "plugins/taro/tests/integration" ]; then
