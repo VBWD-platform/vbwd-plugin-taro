@@ -102,8 +102,7 @@ jobs:
         working-directory: vbwd-backend
         run: |
           if [ -d "plugins/taro/tests/integration" ]; then
-            docker compose --profile test run --rm -T test \
-              pytest plugins/taro/tests/integration/ \
+            docker compose exec -T api pytest plugins/taro/tests/integration/ \
               -v --tb=short \
               --junit-xml=/app/test-results/integration.xml
           else
