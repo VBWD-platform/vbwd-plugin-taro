@@ -68,7 +68,21 @@ jobs:
       - name: Start services
         id: start-services
         working-directory: vbwd-backend
-        run: docker compose up -d --build
+        run: |
+          docker compose up -d --build
+          echo "Waiting for API to become healthy..."
+          for i in $(seq 1 30); do
+            STATE=$(docker compose ps api --format '{{.State}}' 2>/dev/null || echo "unknown")
+            echo "  attempt $i/30 — api state: $STATE"
+            if [ "$STATE" = "running" ]; then
+              echo "API is running."
+              exit 0
+            fi
+            sleep 3
+          done
+          echo "API failed to reach running state. Logs:"
+          docker compose logs --tail=50 api
+          exit 1
 
       # ── 5. Install and activate plugin ────────────────────────────────────
       - name: Enable plugin
@@ -103,6 +117,14 @@ jobs:
         working-directory: vbwd-backend
         run: |
           if [ -d "plugins/taro/tests/integration" ]; then
+            echo "Container states before integration tests:"
+            docker compose ps
+            STATE=$(docker compose ps api --format '{{.State}}' 2>/dev/null || echo "unknown")
+            if [ "$STATE" != "running" ]; then
+              echo "API not running (state: $STATE) — showing logs:"
+              docker compose logs --tail=50 api
+              exit 1
+            fi
             docker compose exec -T api pytest plugins/taro/tests/integration/ \
               -v --tb=short \
               --junit-xml=/app/test-results/integration.xml
