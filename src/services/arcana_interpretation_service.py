@@ -1,5 +1,5 @@
 """ArcanaInterpretationService - LLM integration for card interpretations."""
-from typing import Optional, Tuple, List
+from typing import Tuple, List
 from plugins.taro.src.repositories.taro_card_draw_repository import (
     TaroCardDrawRepository,
 )

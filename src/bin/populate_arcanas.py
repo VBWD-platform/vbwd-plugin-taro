@@ -12,7 +12,6 @@ This script creates:
 Usage:
     python src/plugins/taro/bin/populate_arcanas.py
 """
-import os
 import sys
 from pathlib import Path
 
@@ -20,9 +19,9 @@ from pathlib import Path
 project_root = Path(__file__).parent.parent.parent.parent.parent
 sys.path.insert(0, str(project_root))
 
-from src.extensions import db
-from plugins.taro.src.models.arcana import Arcana
-from plugins.taro.src.enums import ArcanaType
+from src.extensions import db  # noqa: E402
+from plugins.taro.src.models.arcana import Arcana  # noqa: E402
+from plugins.taro.src.enums import ArcanaType  # noqa: E402
 
 
 # 22 Major Arcana (0-21)
@@ -544,7 +543,7 @@ def populate_arcanas():
     print(f"✓ Created {cards_created} Major Arcana cards")
 
     # Create Minor Arcana
-    suit_colors = {
+    _suit_colors = {
         "CUPS": "💧",
         "WANDS": "🔥",
         "SWORDS": "⚔️",
@@ -574,11 +573,11 @@ def populate_arcanas():
     total_count = db.session.query(Arcana).count()
     print(f"\n{'='*50}")
     print(f"✓ SUCCESS: Populated {total_count} Tarot cards")
-    print(f"  - 22 Major Arcana (0-21)")
-    print(f"  - 14 Cups cards")
-    print(f"  - 14 Wands cards")
-    print(f"  - 14 Swords cards")
-    print(f"  - 14 Pentacles cards")
+    print("  - 22 Major Arcana (0-21)")
+    print("  - 14 Cups cards")
+    print("  - 14 Wands cards")
+    print("  - 14 Swords cards")
+    print("  - 14 Pentacles cards")
     print(f"{'='*50}")
 
 

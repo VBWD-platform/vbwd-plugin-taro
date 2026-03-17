@@ -3,7 +3,6 @@ import json
 import os
 import tempfile
 import pytest
-from pathlib import Path
 
 
 class TestPromptServiceLoad:
@@ -114,8 +113,6 @@ class TestPromptServiceGetPrompt:
 
     def test_get_prompt_not_found_error(self):
         """Should raise ValueError if prompt doesn't exist"""
-        from plugins.taro.src.services.prompt_service import PromptService
-
         service = self._make_service_with_prompts()
 
         try:
@@ -128,8 +125,6 @@ class TestPromptServiceGetPrompt:
 
     def test_get_prompt_rejects_internal_keys(self):
         """Should not allow access to internal keys (starting with _)"""
-        from plugins.taro.src.services.prompt_service import PromptService
-
         service = self._make_service_with_prompts()
 
         try:
@@ -484,7 +479,7 @@ class TestLanguageVariableRendering:
         service = PromptService.from_dict(
             {
                 "situation_reading": {
-                    "template": "You are an expert.\n\nRESPOND IN {{language}} LANGUAGE.\n\nSituation: {{situation_text}}",
+                    "template": "You are an expert.\n\nRESPOND IN {{language}} LANGUAGE.\n\nSituation: {{situation_text}}",  # noqa: E501
                     "variables": ["language", "situation_text"],
                 }
             }

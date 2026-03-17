@@ -23,7 +23,7 @@ from src.config import get_database_url  # noqa: E402
 from src.extensions import db  # noqa: E402
 
 # Import all Taro models so Alembic can detect them
-from plugins.taro.src.models import (
+from plugins.taro.src.models import (  # noqa: F401, E402
     Arcana,
     TaroSession,
     TaroCardDraw,

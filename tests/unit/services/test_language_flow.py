@@ -52,7 +52,7 @@ class TestCompleteLanguageFlow:
         prompt_service = PromptService.from_dict(
             {
                 "situation_reading": {
-                    "template": "You are an expert Tarot card reader.\n\nRESPOND IN {{language}} LANGUAGE.\n\nSituation: {{situation_text}}\n\nCards:\n{{cards_context}}\n\nProvide comprehensive reading:",
+                    "template": "You are an expert Tarot card reader.\n\nRESPOND IN {{language}} LANGUAGE.\n\nSituation: {{situation_text}}\n\nCards:\n{{cards_context}}\n\nProvide comprehensive reading:",  # noqa: E501
                     "variables": ["language", "situation_text", "cards_context"],
                 }
             }
@@ -119,7 +119,7 @@ class TestCompleteLanguageFlow:
         prompt_service = PromptService.from_dict(
             {
                 "situation_reading": {
-                    "template": "RESPOND IN {{language}} LANGUAGE.\n\nSituation: {{situation_text}}\n\nCards: {{cards_context}}",
+                    "template": "RESPOND IN {{language}} LANGUAGE.\n\nSituation: {{situation_text}}\n\nCards: {{cards_context}}",  # noqa: E501
                     "variables": ["language", "situation_text", "cards_context"],
                 }
             }
@@ -137,7 +137,7 @@ class TestCompleteLanguageFlow:
         user_id = str(uuid4())
         session = service.create_session(user_id=user_id)
 
-        result = service.generate_situation_reading(
+        _result = service.generate_situation_reading(
             session_id=str(session.id),
             situation_text="Test situation",
             language=lang_code,
@@ -163,7 +163,7 @@ class TestCompleteLanguageFlow:
         prompt_service = PromptService.from_dict(
             {
                 "follow_up_question": {
-                    "template": "You are oracle.\n\nRESPOND IN {{language}} LANGUAGE.\n\nQuestion: {{question}}\n\nCards: {{cards_context}}",
+                    "template": "You are oracle.\n\nRESPOND IN {{language}} LANGUAGE.\n\nQuestion: {{question}}\n\nCards: {{cards_context}}",  # noqa: E501
                     "variables": ["language", "question", "cards_context"],
                 }
             }
@@ -182,7 +182,7 @@ class TestCompleteLanguageFlow:
         session = service.create_session(user_id=user_id)
 
         # Call with French language
-        result = service.answer_oracle_question(
+        _result = service.answer_oracle_question(
             session_id=str(session.id),
             question="Will my situation improve?",
             language="fr",

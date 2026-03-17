@@ -1,6 +1,6 @@
 """Tests for ArcanaInterpretationService."""
 import pytest
-from unittest.mock import Mock, patch
+from unittest.mock import Mock
 from plugins.taro.src.services.arcana_interpretation_service import (
     ArcanaInterpretationService,
 )
@@ -147,7 +147,7 @@ class TestArcanaInterpretationService:
         """Test that token cost is calculated based on response."""
         # Longer response = more tokens
         short_response = "Short"
-        long_response = "This is a much longer interpretation that contains more details and context about the card and its meaning in the spread and position."
+        long_response = "This is a much longer interpretation that contains more details and context about the card and its meaning in the spread and position."  # noqa: E501
 
         mock_llm_client.generate.side_effect = [short_response, long_response]
 
