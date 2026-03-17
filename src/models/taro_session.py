@@ -1,5 +1,5 @@
 """TaroSession domain model - user Tarot reading session."""
-from typing import List
+from typing import ClassVar, List
 from src.utils.datetime_utils import utcnow
 from src.extensions import db
 from src.models.base import BaseModel
@@ -66,7 +66,7 @@ class TaroSession(BaseModel):
     )  # From tarif plan/add-ons
 
     # Relationships
-    cards: List = db.relationship(
+    cards: ClassVar[List] = db.relationship(
         "TaroCardDraw",
         foreign_keys="TaroCardDraw.session_id",
         primaryjoin="TaroSession.id == TaroCardDraw.session_id",
