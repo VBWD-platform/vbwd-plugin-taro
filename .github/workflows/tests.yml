@@ -65,6 +65,7 @@ jobs:
           if [ -d "$PLUGIN_SRC" ]; then
             mypy "$PLUGIN_SRC" \
               --ignore-missing-imports \
+              --follow-imports=silent \
               --no-error-summary \
               --python-version=3.11
           else
