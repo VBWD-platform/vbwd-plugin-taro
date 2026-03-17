@@ -8,7 +8,11 @@ from jinja2 import Template, TemplateSyntaxError
 class PromptService:
     """Load, validate, and manage LLM prompts with metadata inheritance."""
 
-    def __init__(self, prompts_file: Optional[str] = None, prompts_data: Optional[Dict[str, Any]] = None):
+    def __init__(
+        self,
+        prompts_file: Optional[str] = None,
+        prompts_data: Optional[Dict[str, Any]] = None,
+    ):
         """Initialize service with prompts file path or data dict.
 
         Args:

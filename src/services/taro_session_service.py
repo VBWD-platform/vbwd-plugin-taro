@@ -470,7 +470,9 @@ class TaroSessionService:
         count = 0
         for session in expired_sessions:
             if session.status == TaroSessionStatus.ACTIVE.value:
-                self.session_repo.update_status(str(session.id), TaroSessionStatus.EXPIRED)
+                self.session_repo.update_status(
+                    str(session.id), TaroSessionStatus.EXPIRED
+                )
                 count += 1
 
         return count
