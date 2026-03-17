@@ -26,6 +26,13 @@ jobs:
         with:
           path: vbwd-backend/plugins/taro
 
+      # ── 2b. Clone chat plugin (taro runtime dependency) ──────────────────
+      - name: Clone chat plugin
+        uses: actions/checkout@v4
+        with:
+          repository: VBWD-platform/vbwd-plugin-chat
+          path: vbwd-backend/plugins/chat
+
       # ── 3. Style checks (black · flake8 · mypy) ───────────────────────────
       - name: Set up Python 3.11
         uses: actions/setup-python@v5
