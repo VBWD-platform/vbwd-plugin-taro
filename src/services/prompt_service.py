@@ -24,6 +24,7 @@ class PromptService:
             json.JSONDecodeError: If JSON is invalid
             ValueError: If neither file nor data provided
         """
+        self.prompts_file: Optional[str] = None
         if prompts_file:
             self.prompts_file = prompts_file
             self.prompts = self._load_prompts()
