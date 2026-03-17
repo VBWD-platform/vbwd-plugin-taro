@@ -1,7 +1,6 @@
 """Tests for Arcana table population and image file consistency."""
 import pytest
 from pathlib import Path
-from src.extensions import db
 from plugins.taro.src.models.arcana import Arcana
 from plugins.taro.src.enums import ArcanaType
 

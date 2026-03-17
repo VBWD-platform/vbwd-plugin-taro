@@ -543,13 +543,6 @@ def populate_arcanas():
     print(f"✓ Created {cards_created} Major Arcana cards")
 
     # Create Minor Arcana
-    _suit_colors = {
-        "CUPS": "💧",
-        "WANDS": "🔥",
-        "SWORDS": "⚔️",
-        "PENTACLES": "💰",
-    }
-
     for suit, cards in MINOR_ARCANA.items():
         print(f"\nCreating {suit} ({len(cards)} cards)...")
         for rank, name, upright, reversed in cards:

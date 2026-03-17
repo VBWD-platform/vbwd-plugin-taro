@@ -26,7 +26,7 @@ def card_draw_repo(db):
 def sample_cards(db):
     """Fixture creating sample TaroCardDraw records."""
     user_id = str(uuid4())
-    _session_id = str(uuid4())
+    str(uuid4())
 
     # Create Arcanas for the cards
     fool = Arcana(

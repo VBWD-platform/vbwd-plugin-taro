@@ -137,7 +137,7 @@ class TestCompleteLanguageFlow:
         user_id = str(uuid4())
         session = service.create_session(user_id=user_id)
 
-        _result = service.generate_situation_reading(
+        service.generate_situation_reading(
             session_id=str(session.id),
             situation_text="Test situation",
             language=lang_code,
@@ -182,7 +182,7 @@ class TestCompleteLanguageFlow:
         session = service.create_session(user_id=user_id)
 
         # Call with French language
-        _result = service.answer_oracle_question(
+        service.answer_oracle_question(
             session_id=str(session.id),
             question="Will my situation improve?",
             language="fr",

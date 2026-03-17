@@ -323,7 +323,7 @@ class TestTaroSessionService:
         db.session.commit()
 
         # Cleanup
-        _count = taro_service.cleanup_expired_sessions()
+        taro_service.cleanup_expired_sessions()
 
         # Should have marked as expired
         updated = taro_service.get_session(str(expired_session.id))
@@ -673,7 +673,7 @@ class TestLanguageParameterFlow:
         session = service.create_session(user_id=user_id)
 
         # Call with specific language
-        _result = service.generate_situation_reading(
+        service.generate_situation_reading(
             session_id=str(session.id),
             situation_text="Test situation",
             language=lang_code,
@@ -732,7 +732,7 @@ class TestLanguageParameterFlow:
         session = service.create_session(user_id=user_id)
 
         # Call with French language
-        result = service.answer_oracle_question(
+        service.answer_oracle_question(
             session_id=str(session.id), question="Will it improve?", language="fr"
         )
 

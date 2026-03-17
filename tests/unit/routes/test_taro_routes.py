@@ -114,7 +114,7 @@ class TestLanguageParameterInRoutes:
                 mock_get_services.return_value = mock_service
 
                 # Call endpoint with language parameter
-                _response = client.post(
+                client.post(
                     f"/api/v1/taro/session/{session_id}/situation",
                     json={"situation_text": "My career question", "language": "ru"},
                     headers=_AUTH_HEADER,
@@ -144,7 +144,7 @@ class TestLanguageParameterInRoutes:
                 mock_get_services.return_value = mock_service
 
                 # Call without language parameter
-                _response = client.post(
+                client.post(
                     f"/api/v1/taro/session/{session_id}/situation",
                     json={"situation_text": "My question"},
                     headers=_AUTH_HEADER,
@@ -173,7 +173,7 @@ class TestLanguageParameterInRoutes:
                 mock_service.generate_situation_reading.return_value = "Response"
                 mock_get_services.return_value = mock_service
 
-                _response = client.post(
+                client.post(
                     f"/api/v1/taro/session/{session_id}/situation",
                     json={"situation_text": "Test", "language": lang_code},
                     headers=_AUTH_HEADER,
@@ -204,7 +204,7 @@ class TestLanguageParameterInRoutes:
                 mock_service.llm_adapter.chat.return_value = "Card explanation"
                 mock_get_services.return_value = mock_service
 
-                _response = client.post(
+                client.post(
                     f"/api/v1/taro/session/{session_id}/card-explanation",
                     json={"language": "de"},
                     headers=_AUTH_HEADER,
@@ -276,7 +276,7 @@ class TestLanguageParameterInRoutes:
                 mock_service.answer_oracle_question.return_value = "Oracle's answer"
                 mock_get_services.return_value = mock_service
 
-                _response = client.post(
+                client.post(
                     f"/api/v1/taro/session/{session_id}/follow-up-question",
                     json={"question": "Will it improve?", "language": "fr"},
                     headers=_AUTH_HEADER,
@@ -306,7 +306,7 @@ class TestLanguageParameterInRoutes:
                 mock_service.answer_oracle_question.return_value = "Response"
                 mock_get_services.return_value = mock_service
 
-                _response = client.post(
+                client.post(
                     f"/api/v1/taro/session/{session_id}/follow-up-question",
                     json={"question": "Test question", "language": lang_code},
                     headers=_AUTH_HEADER,
