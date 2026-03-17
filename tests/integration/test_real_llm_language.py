@@ -77,11 +77,11 @@ def prompt_service(taro_config):
     """Fixture providing PromptService with config templates"""
     prompts_data = {
         "situation_reading": {
-            "template": "You are an expert Tarot card reader.\n\nRESPOND IN {{language}} LANGUAGE.\n\nSituation: {{situation_text}}\n\nCards:\n{{cards_context}}\n\nProvide a brief reading:",
+            "template": "You are an expert Tarot card reader.\n\nRESPOND IN {{language}} LANGUAGE.\n\nSituation: {{situation_text}}\n\nCards:\n{{cards_context}}\n\nProvide a brief reading:",  # noqa: E501
             "variables": ["language", "situation_text", "cards_context"],
         },
         "card_explanation": {
-            "template": "You are an expert.\n\nRESPOND IN {{language}} LANGUAGE.\n\nCards: {{cards_context}}\n\nExplain the cards:",
+            "template": "You are an expert.\n\nRESPOND IN {{language}} LANGUAGE.\n\nCards: {{cards_context}}\n\nExplain the cards:",  # noqa: E501
             "variables": ["language", "cards_context"],
         },
         "follow_up_question": {

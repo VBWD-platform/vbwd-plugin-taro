@@ -7,7 +7,6 @@ from random import randint
 import os
 import logging
 import json
-from src.extensions import db
 from plugins.taro.src.models.taro_session import TaroSession
 from plugins.taro.src.models.taro_card_draw import TaroCardDraw
 from plugins.taro.src.repositories.arcana_repository import ArcanaRepository

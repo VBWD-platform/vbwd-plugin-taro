@@ -76,4 +76,4 @@ class TaroCardDraw(BaseModel):
         }
 
     def __repr__(self) -> str:
-        return f"<TaroCardDraw(session_id='{self.session_id}', position='{self.position}', orientation='{self.orientation}')>"
+        return f"<TaroCardDraw(session_id='{self.session_id}', position='{self.position}', orientation='{self.orientation}')>"  # noqa: E501

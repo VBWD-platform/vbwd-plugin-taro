@@ -323,7 +323,7 @@ class TestTaroSessionService:
         db.session.commit()
 
         # Cleanup
-        count = taro_service.cleanup_expired_sessions()
+        _count = taro_service.cleanup_expired_sessions()
 
         # Should have marked as expired
         updated = taro_service.get_session(str(expired_session.id))
@@ -576,7 +576,7 @@ class TestLanguageParameterFlow:
         prompt_service = PromptService.from_dict(
             {
                 "situation_reading": {
-                    "template": "You are expert.\n\nRESPOND IN {{language}} LANGUAGE.\n\nSituation: {{situation_text}}\n\nCards: {{cards_context}}\n\nProvide reading:",
+                    "template": "You are expert.\n\nRESPOND IN {{language}} LANGUAGE.\n\nSituation: {{situation_text}}\n\nCards: {{cards_context}}\n\nProvide reading:",  # noqa: E501
                     "variables": ["language", "situation_text", "cards_context"],
                 }
             }
@@ -653,7 +653,7 @@ class TestLanguageParameterFlow:
         prompt_service = PromptService.from_dict(
             {
                 "situation_reading": {
-                    "template": "RESPOND IN {{language}} LANGUAGE.\n\nSituation: {{situation_text}}\n\nCards: {{cards_context}}",
+                    "template": "RESPOND IN {{language}} LANGUAGE.\n\nSituation: {{situation_text}}\n\nCards: {{cards_context}}",  # noqa: E501
                     "variables": ["language", "situation_text", "cards_context"],
                 }
             }
@@ -673,7 +673,7 @@ class TestLanguageParameterFlow:
         session = service.create_session(user_id=user_id)
 
         # Call with specific language
-        result = service.generate_situation_reading(
+        _result = service.generate_situation_reading(
             session_id=str(session.id),
             situation_text="Test situation",
             language=lang_code,
@@ -714,7 +714,7 @@ class TestLanguageParameterFlow:
         prompt_service = PromptService.from_dict(
             {
                 "follow_up_question": {
-                    "template": "RESPOND IN {{language}} LANGUAGE.\n\nQuestion: {{question}}\n\nCards: {{cards_context}}",
+                    "template": "RESPOND IN {{language}} LANGUAGE.\n\nQuestion: {{question}}\n\nCards: {{cards_context}}",  # noqa: E501
                     "variables": ["language", "question", "cards_context"],
                 }
             }

@@ -1,6 +1,5 @@
 """Repository for TaroCardDraw data access."""
 from typing import Optional, List
-from src.extensions import db
 from plugins.taro.src.models.taro_card_draw import TaroCardDraw
 from plugins.taro.src.enums import CardPosition, CardOrientation
 

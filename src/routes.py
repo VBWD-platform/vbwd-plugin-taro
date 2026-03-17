@@ -1,4 +1,5 @@
 """Routes for Taro plugin - API endpoints."""
+import logging
 from flask import Blueprint, request, jsonify, current_app, send_from_directory, g
 from src.utils.datetime_utils import utcnow
 from pathlib import Path
@@ -18,6 +19,8 @@ from plugins.taro.src.repositories.taro_card_draw_repository import (
 )
 from plugins.taro.src.services.prompt_service import PromptService
 
+
+logger = logging.getLogger(__name__)
 
 taro_bp = Blueprint("taro", __name__, url_prefix="/api/v1/taro")
 

@@ -1,7 +1,6 @@
 """Repository for TaroSession data access."""
 from typing import Optional, List
 from datetime import datetime
-from src.extensions import db
 from plugins.taro.src.models.taro_session import TaroSession
 from plugins.taro.src.enums import TaroSessionStatus
 
