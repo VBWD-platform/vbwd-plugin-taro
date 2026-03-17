@@ -48,6 +48,7 @@ class TaroSessionCreatedHandler:
             TaroInterpretationGeneratedEvent if successful
         """
         try:
+            assert event.session_id is not None
             total_tokens = event.initial_tokens_consumed
 
             # Get cards for this session
@@ -139,6 +140,9 @@ class TaroFollowUpHandler:
             TaroFollowUpGeneratedEvent if successful
         """
         try:
+            assert event.session_id is not None
+            assert event.follow_up_type is not None
+            assert event.question is not None
             # Validate session exists
             session = self.session_service.get_session(event.session_id)
             if not session:

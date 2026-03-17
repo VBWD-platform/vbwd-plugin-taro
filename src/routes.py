@@ -161,7 +161,7 @@ def check_token_balance(user_id: str, tokens_required: int = 10) -> bool:
     purchase_repo = TokenBundlePurchaseRepository(db.session)
 
     token_service = TokenService(balance_repo, transaction_repo, purchase_repo)
-    user_balance = token_service.get_balance(user_id)
+    user_balance = token_service.get_balance(UUID(user_id))
     return user_balance >= tokens_required
 
 
@@ -213,7 +213,7 @@ def create_session():
             daily_limit=daily_limit,
             max_follow_ups=max_follow_ups,
         )
-        current_app.container.event_dispatcher().emit(event)
+        current_app.container.event_dispatcher().emit(event)  # type: ignore[attr-defined]
 
         # Create session and get response (service handles event processing)
         session = session_service.create_session(
@@ -426,7 +426,7 @@ def create_follow_up(session_id: str):
             follow_up_type=follow_up_type,
             requested_at=utcnow(),
         )
-        current_app.container.event_dispatcher().emit(event)
+        current_app.container.event_dispatcher().emit(event)  # type: ignore[attr-defined]
 
         # Return success response
         return (

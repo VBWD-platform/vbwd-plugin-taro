@@ -1,14 +1,14 @@
 """Prompt Service for managing LLM prompts with Jinja2 templating"""
 import json
 import os
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Optional
 from jinja2 import Template, TemplateSyntaxError
 
 
 class PromptService:
     """Load, validate, and manage LLM prompts with metadata inheritance."""
 
-    def __init__(self, prompts_file: str = None, prompts_data: Dict[str, Any] = None):
+    def __init__(self, prompts_file: Optional[str] = None, prompts_data: Optional[Dict[str, Any]] = None):
         """Initialize service with prompts file path or data dict.
 
         Args:

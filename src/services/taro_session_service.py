@@ -285,7 +285,6 @@ class TaroSessionService:
                     CardPosition.PAST: "This card represents influences from the past",
                     CardPosition.PRESENT: "This card represents the current situation",
                     CardPosition.FUTURE: "This card represents what may come ahead",
-                    CardPosition.ADDITIONAL: "This card provides additional insight",
                 }.get(position, "")
 
                 # Render prompt from PromptService
@@ -471,7 +470,7 @@ class TaroSessionService:
         count = 0
         for session in expired_sessions:
             if session.status == TaroSessionStatus.ACTIVE.value:
-                self.session_repo.update_status(session.id, TaroSessionStatus.EXPIRED)
+                self.session_repo.update_status(str(session.id), TaroSessionStatus.EXPIRED)
                 count += 1
 
         return count
@@ -549,7 +548,7 @@ class TaroSessionService:
                 and session.started_at.date() == today
             ):
                 self.session_repo.update_status(
-                    session.id,
+                    str(session.id),
                     TaroSessionStatus.CLOSED,
                     ended_at=utcnow(),
                 )
