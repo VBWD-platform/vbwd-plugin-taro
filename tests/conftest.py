@@ -60,7 +60,7 @@ def _ensure_test_db(url: str) -> None:
 @pytest.fixture
 def app():
     """Create application for testing against an isolated test database."""
-    from src.app import create_app
+    from vbwd.app import create_app
 
     url = _test_db_url()
     _ensure_test_db(url)
@@ -75,7 +75,7 @@ def app():
 
     app = create_app(test_config)
 
-    from src.extensions import limiter
+    from vbwd.extensions import limiter
 
     limiter.reset()
 
@@ -95,7 +95,7 @@ def db(app):
     Creates all tables in the isolated test database, yields the db handle,
     then drops everything.  This never touches the main 'vbwd' database.
     """
-    from src.extensions import db
+    from vbwd.extensions import db
 
     with app.app_context():
         db.create_all()

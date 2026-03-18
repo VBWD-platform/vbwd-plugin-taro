@@ -19,7 +19,7 @@ from pathlib import Path
 project_root = Path(__file__).parent.parent.parent.parent.parent
 sys.path.insert(0, str(project_root))
 
-from src.extensions import db  # noqa: E402
+from vbwd.extensions import db  # noqa: E402
 from plugins.taro.src.models.arcana import Arcana  # noqa: E402
 from plugins.taro.src.enums import ArcanaType  # noqa: E402
 
@@ -575,7 +575,7 @@ def populate_arcanas():
 
 
 if __name__ == "__main__":
-    from src.app import create_app
+    from vbwd.app import create_app
 
     app = create_app()
     with app.app_context():

@@ -1,9 +1,9 @@
 """Events for Taro plugin - event-driven architecture."""
 from dataclasses import dataclass
 from datetime import datetime
-from src.utils.datetime_utils import utcnow
+from vbwd.utils.datetime_utils import utcnow
 from typing import List, Optional
-from src.events.domain import DomainEvent
+from vbwd.events.domain import DomainEvent
 
 
 @dataclass

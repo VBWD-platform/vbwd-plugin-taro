@@ -1,7 +1,7 @@
 """TaroCardDraw domain model - card within a session."""
 from sqlalchemy.dialects.postgresql import UUID
-from src.extensions import db
-from src.models.base import BaseModel
+from vbwd.extensions import db
+from vbwd.models.base import BaseModel
 from plugins.taro.src.enums import CardPosition, CardOrientation
 
 

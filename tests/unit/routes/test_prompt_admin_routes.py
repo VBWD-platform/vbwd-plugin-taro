@@ -9,9 +9,9 @@ from unittest.mock import patch
 @pytest.fixture
 def admin_token(client, app):
     """Create an admin user and get JWT token."""
-    from src.models.user import User
-    from src.models.role import Role
-    from src.extensions import db
+    from vbwd.models.user import User
+    from vbwd.models.role import Role
+    from vbwd.extensions import db
 
     with app.app_context():
         # Create admin role

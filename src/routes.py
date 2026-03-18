@@ -1,11 +1,11 @@
 """Routes for Taro plugin - API endpoints."""
 import logging
 from flask import Blueprint, request, jsonify, current_app, send_from_directory, g
-from src.utils.datetime_utils import utcnow
+from vbwd.utils.datetime_utils import utcnow
 from pathlib import Path
 from uuid import UUID
-from src.extensions import db
-from src.middleware.auth import require_auth, require_admin
+from vbwd.extensions import db
+from vbwd.middleware.auth import require_auth, require_admin
 
 from plugins.taro.src.events import (
     TaroSessionRequestedEvent,
@@ -100,9 +100,9 @@ def get_user_tarif_plan_limits(user_id: str) -> tuple:
         Tuple of (daily_limit: int, max_follow_ups: int)
         Returns defaults (3, 3) if user has no active subscription
     """
-    from src.models.user import User
-    from src.models.subscription import Subscription
-    from src.models.enums import SubscriptionStatus
+    from vbwd.models.user import User
+    from vbwd.models.subscription import Subscription
+    from vbwd.models.enums import SubscriptionStatus
 
     # Default limits
     DEFAULT_DAILY_LIMIT = 3
@@ -147,12 +147,12 @@ def check_token_balance(user_id: str, tokens_required: int = 10) -> bool:
     Returns:
         True if user has sufficient tokens, False otherwise
     """
-    from src.services.token_service import TokenService
-    from src.repositories.token_repository import (
+    from vbwd.services.token_service import TokenService
+    from vbwd.repositories.token_repository import (
         TokenBalanceRepository,
         TokenTransactionRepository,
     )
-    from src.repositories.token_bundle_purchase_repository import (
+    from vbwd.repositories.token_bundle_purchase_repository import (
         TokenBundlePurchaseRepository,
     )
 
@@ -973,8 +973,8 @@ def get_daily_limits():
         daily_limit, _ = get_user_tarif_plan_limits(user_id)
 
         # Get plan name from subscription
-        from src.models.subscription import Subscription
-        from src.models.enums import SubscriptionStatus
+        from vbwd.models.subscription import Subscription
+        from vbwd.models.enums import SubscriptionStatus
 
         plan_name = "Unknown"
         subscription = Subscription.query.filter(
@@ -1094,7 +1094,7 @@ def admin_get_user_sessions(user_id):
             return jsonify({"error": "Invalid user ID format"}), 400
 
         # Verify user exists
-        from src.models.user import User
+        from vbwd.models.user import User
 
         user = User.query.get(user_uuid)
         if not user:
@@ -1161,7 +1161,7 @@ def admin_reset_user_sessions(user_id):
             return jsonify({"error": "Invalid user ID format"}), 400
 
         # Verify user exists
-        from src.models.user import User
+        from vbwd.models.user import User
 
         user = User.query.get(user_uuid)
         if not user:

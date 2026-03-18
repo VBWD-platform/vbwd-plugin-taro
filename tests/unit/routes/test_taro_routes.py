@@ -14,8 +14,8 @@ def auth_as(user_id):
     mock_user.status = Mock(value="ACTIVE")
     mock_user.id = user_id
 
-    with patch("src.middleware.auth.AuthService") as mock_auth_cls:
-        with patch("src.middleware.auth.UserRepository") as mock_repo_cls:
+    with patch("vbwd.middleware.auth.AuthService") as mock_auth_cls:
+        with patch("vbwd.middleware.auth.UserRepository") as mock_repo_cls:
             mock_auth_cls.return_value.verify_token.return_value = user_id
             mock_repo_cls.return_value.find_by_id.return_value = mock_user
             yield

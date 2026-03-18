@@ -1,6 +1,6 @@
 """Event handlers for Taro plugin - orchestrate business logic."""
 from typing import Optional
-from src.extensions import db
+from vbwd.extensions import db
 from plugins.taro.src.events import (
     TaroSessionCreatedEvent,
     TaroFollowUpRequestedEvent,

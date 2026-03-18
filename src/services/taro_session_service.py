@@ -1,7 +1,7 @@
 """TaroSessionService - business logic for Taro sessions."""
 from typing import Optional, Tuple, List
 from datetime import timedelta
-from src.utils.datetime_utils import utcnow
+from vbwd.utils.datetime_utils import utcnow
 from uuid import uuid4
 from random import randint
 import os

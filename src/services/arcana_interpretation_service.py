@@ -142,7 +142,7 @@ Keep it concise and mystical."""
         # Get Arcana data for each card
         arcana_list = []
         for card in cards:
-            from src.extensions import db
+            from vbwd.extensions import db
 
             arcana = (
                 db.session.query(Arcana).filter(Arcana.id == card.arcana_id).first()

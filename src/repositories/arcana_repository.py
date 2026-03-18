@@ -1,7 +1,7 @@
 """Repository for Arcana data access."""
 from typing import Optional, List, Dict
 from random import sample
-from src.extensions import db
+from vbwd.extensions import db
 from plugins.taro.src.models.arcana import Arcana
 from plugins.taro.src.enums import ArcanaType
 

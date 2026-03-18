@@ -1,7 +1,7 @@
 """TaroSession domain model - user Tarot reading session."""
-from src.utils.datetime_utils import utcnow
-from src.extensions import db
-from src.models.base import BaseModel
+from vbwd.utils.datetime_utils import utcnow
+from vbwd.extensions import db
+from vbwd.models.base import BaseModel
 from plugins.taro.src.enums import TaroSessionStatus
 
 
