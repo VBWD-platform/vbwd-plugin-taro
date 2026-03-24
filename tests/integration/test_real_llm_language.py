@@ -56,12 +56,19 @@ def taro_config():
 @pytest.fixture
 def llm_adapter(taro_config):
     """Fixture providing real LLM adapter with actual credentials"""
+    if os.getenv("SKIP_LLM_TESTS") == "1":
+        pytest.skip("SKIP_LLM_TESTS=1")
+
     api_endpoint = taro_config.get("llm_api_endpoint")
     api_key = taro_config.get("llm_api_key")
     model = taro_config.get("llm_model", "deepseek-reasoner")
 
     if not api_endpoint or not api_key:
         pytest.skip("LLM credentials not configured")
+
+    # Skip if LLMAdapter is a stub (chat plugin not installed)
+    if not hasattr(LLMAdapter, "__module__") or "mock" in str(type(LLMAdapter)).lower():
+        pytest.skip("LLMAdapter is a stub — real chat plugin required")
 
     return LLMAdapter(
         api_endpoint=api_endpoint,
@@ -322,6 +329,9 @@ class TestRealLLMLanguageCommunication:
         """Test error handling with invalid LLM credentials"""
         from plugins.chat.src.llm_adapter import LLMAdapter as BadLLMAdapter
 
+        if "Stub" in BadLLMAdapter.__name__ or "Mock" in str(type(BadLLMAdapter)):
+            pytest.skip("LLMAdapter is a stub — real chat plugin required")
+
         # Create adapter with invalid credentials
         bad_llm = BadLLMAdapter(
             api_endpoint="https://api.invalid.com",
@@ -385,6 +395,9 @@ class TestLLMConfigurationLoading:
 
     def test_create_llm_adapter_from_config(self, taro_config):
         """Test creating LLMAdapter from actual config"""
+        if "Stub" in LLMAdapter.__name__ or "Mock" in str(type(LLMAdapter)):
+            pytest.skip("LLMAdapter is a stub — real chat plugin required")
+
         api_endpoint = taro_config.get("llm_api_endpoint")
         api_key = taro_config.get("llm_api_key")
         model = taro_config.get("llm_model")

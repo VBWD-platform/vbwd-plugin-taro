@@ -8,7 +8,17 @@ from unittest.mock import MagicMock
 # Stub plugins.chat so taro tests run standalone (chat plugin not installed in CI)
 if "plugins.chat" not in sys.modules:
     _chat_llm = ModuleType("plugins.chat.src.llm_adapter")
-    _chat_llm.LLMAdapter = MagicMock  # type: ignore[attr-defined]
+
+    class _StubLLMAdapter:
+        """LLM stub that returns real strings instead of MagicMock."""
+
+        def __init__(self, *args, **kwargs):
+            pass
+
+        def chat(self, *args, **kwargs):
+            return "Stub AI interpretation for testing."
+
+    _chat_llm.LLMAdapter = _StubLLMAdapter  # type: ignore[attr-defined]
     _chat_llm.LLMError = type("LLMError", (Exception,), {})  # type: ignore[attr-defined]
     sys.modules["plugins.chat"] = ModuleType("plugins.chat")
     sys.modules["plugins.chat.src"] = ModuleType("plugins.chat.src")
