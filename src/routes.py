@@ -5,7 +5,7 @@ from vbwd.utils.datetime_utils import utcnow
 from pathlib import Path
 from uuid import UUID
 from vbwd.extensions import db
-from vbwd.middleware.auth import require_auth, require_admin
+from vbwd.middleware.auth import require_auth, require_admin, require_permission
 
 from plugins.taro.src.events import (
     TaroSessionRequestedEvent,
@@ -1072,6 +1072,7 @@ def serve_arcana_assets(filename):
 @taro_bp.route("/admin/users/<user_id>/sessions", methods=["GET"])
 @require_auth
 @require_admin
+@require_permission("taro.products.view")
 def admin_get_user_sessions(user_id):
     """Get user's Taro session info (admin utility).
 
@@ -1139,6 +1140,7 @@ def admin_get_user_sessions(user_id):
 @taro_bp.route("/admin/users/<user_id>/reset-sessions", methods=["POST"])
 @require_auth
 @require_admin
+@require_permission("taro.products.manage")
 def admin_reset_user_sessions(user_id):
     """Reset user's daily Taro sessions (admin utility).
 
@@ -1216,6 +1218,7 @@ def admin_reset_user_sessions(user_id):
 @taro_bp.route("/admin/prompts", methods=["GET"])
 @require_auth
 @require_admin
+@require_permission("taro.products.view")
 def get_all_prompts():
     """Get all prompts with resolved metadata.
 
@@ -1249,6 +1252,7 @@ def get_all_prompts():
 @taro_bp.route("/admin/prompts/defaults", methods=["GET"])
 @require_auth
 @require_admin
+@require_permission("taro.products.view")
 def get_prompt_defaults():
     """Get default metadata.
 
@@ -1266,6 +1270,7 @@ def get_prompt_defaults():
 @taro_bp.route("/admin/prompts/defaults", methods=["PUT"])
 @require_auth
 @require_admin
+@require_permission("taro.products.manage")
 def update_prompt_defaults():
     """Update default metadata.
 
@@ -1291,6 +1296,7 @@ def update_prompt_defaults():
 @taro_bp.route("/admin/prompts/<slug>", methods=["GET"])
 @require_auth
 @require_admin
+@require_permission("taro.products.view")
 def get_prompt(slug):
     """Get single prompt with resolved metadata.
 
@@ -1315,6 +1321,7 @@ def get_prompt(slug):
 @taro_bp.route("/admin/prompts/<slug>", methods=["PUT"])
 @require_auth
 @require_admin
+@require_permission("taro.products.manage")
 def update_prompt(slug):
     """Update a prompt (template + optional metadata overrides).
 
@@ -1359,6 +1366,7 @@ def update_prompt(slug):
 @taro_bp.route("/admin/prompts/reset", methods=["POST"])
 @require_auth
 @require_admin
+@require_permission("taro.products.manage")
 def reset_prompts():
     """Reset all prompts to distribution defaults.
 
@@ -1378,6 +1386,7 @@ def reset_prompts():
 @taro_bp.route("/admin/prompts/validate", methods=["POST"])
 @require_auth
 @require_admin
+@require_permission("taro.products.manage")
 def validate_prompt():
     """Validate prompt template syntax.
 

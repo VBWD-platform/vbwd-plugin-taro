@@ -51,6 +51,14 @@ class TaroPlugin(BasePlugin):
     def get_url_prefix(self) -> Optional[str]:
         return "/api/v1/taro"
 
+    @property
+    def admin_permissions(self):
+        return [
+            {"key": "taro.sessions.view", "label": "View sessions", "group": "Taro"},
+            {"key": "taro.arcana.manage", "label": "Manage arcana", "group": "Taro"},
+            {"key": "taro.configure", "label": "Taro settings", "group": "Taro"},
+        ]
+
     def on_enable(self) -> None:
         pass
 
