@@ -67,7 +67,7 @@ def _ensure_test_db(url: str) -> None:
         engine.dispose()
 
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def app():
     """Create application for testing against an isolated test database."""
     from vbwd.app import create_app
