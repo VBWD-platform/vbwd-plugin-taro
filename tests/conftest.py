@@ -91,6 +91,11 @@ def app():
 
     yield app
 
+    # Dispose engine to free DB connections (prevents exhaustion in full test run)
+    with app.app_context():
+        from vbwd.extensions import db as _db
+        _db.engine.dispose()
+
 
 @pytest.fixture
 def client(app):
