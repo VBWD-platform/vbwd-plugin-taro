@@ -3,7 +3,6 @@ import pytest
 import os
 import sys
 from types import ModuleType
-from unittest.mock import MagicMock
 
 # Stub plugins.chat so taro tests run standalone (chat plugin not installed in CI)
 if "plugins.chat" not in sys.modules:
