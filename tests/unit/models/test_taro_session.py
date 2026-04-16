@@ -50,6 +50,7 @@ class TestTaroSessionCreation:
         db.session.add(session)
         with pytest.raises(IntegrityError):
             db.session.commit()
+        db.session.rollback()
 
     def test_taro_session_default_status_is_active(self, db):
         """Test that default status is ACTIVE."""

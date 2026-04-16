@@ -48,6 +48,7 @@ class TestTaroCardDrawCreation:
         db.session.add(card)
         with pytest.raises(IntegrityError):
             db.session.commit()
+        db.session.rollback()
 
     def test_card_draw_requires_arcana_id(self, db):
         """Test that TaroCardDraw requires an arcana_id at database level."""
@@ -62,6 +63,7 @@ class TestTaroCardDrawCreation:
         db.session.add(card)
         with pytest.raises(IntegrityError):
             db.session.commit()
+        db.session.rollback()
 
     def test_card_position_past(self):
         """Test card position PAST."""
@@ -147,6 +149,7 @@ class TestTaroCardDrawCreation:
         db.session.add(card)
         with pytest.raises(IntegrityError):
             db.session.commit()
+        db.session.rollback()
 
     def test_three_card_spread_with_different_positions(self):
         """Test a complete 3-card spread."""
