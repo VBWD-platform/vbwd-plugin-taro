@@ -100,35 +100,23 @@ def get_user_tarif_plan_limits(user_id: str) -> tuple:
         Tuple of (daily_limit: int, max_follow_ups: int)
         Returns defaults (3, 3) if user has no active subscription
     """
-    from vbwd.models.user import User
-    from vbwd.models.subscription import Subscription
-    from vbwd.models.enums import SubscriptionStatus
+    from vbwd.services.entitlement import resolve_entitlement_provider
 
     # Default limits
     DEFAULT_DAILY_LIMIT = 3
     DEFAULT_MAX_FOLLOW_UPS = 3
 
     try:
-        # Get user and their active subscription
-        user = User.query.get(user_id)
-        if not user:
-            return DEFAULT_DAILY_LIMIT, DEFAULT_MAX_FOLLOW_UPS
-
-        # Get user's active subscription (ACTIVE or TRIALING both grant plan features)
-        subscription = Subscription.query.filter(
-            Subscription.user_id == user_id,
-            Subscription.status.in_(
-                [SubscriptionStatus.ACTIVE, SubscriptionStatus.TRIALING]
-            ),
-        ).first()
-
-        if not subscription or not subscription.tarif_plan:
-            return DEFAULT_DAILY_LIMIT, DEFAULT_MAX_FOLLOW_UPS
-
-        # Read limits from tarif plan features
-        features = subscription.tarif_plan.features or {}
-        daily_limit = features.get("daily_taro_limit", DEFAULT_DAILY_LIMIT)
-        max_follow_ups = features.get("max_taro_follow_ups", DEFAULT_MAX_FOLLOW_UPS)
+        # Plan-driven limits via the entitlement port — no subscription import.
+        # The provider returns the active (ACTIVE/TRIALING) plan's feature value,
+        # or the default when there's no active plan / no subscription plugin.
+        entitlement = resolve_entitlement_provider()
+        daily_limit = entitlement.get_feature_value(
+            user_id, "daily_taro_limit", DEFAULT_DAILY_LIMIT
+        )
+        max_follow_ups = entitlement.get_feature_value(
+            user_id, "max_taro_follow_ups", DEFAULT_MAX_FOLLOW_UPS
+        )
 
         return int(daily_limit), int(max_follow_ups)
 
@@ -973,19 +961,12 @@ def get_daily_limits():
         # Get daily limit from user's tarif plan
         daily_limit, _ = get_user_tarif_plan_limits(user_id)
 
-        # Get plan name from subscription
-        from vbwd.models.subscription import Subscription
-        from vbwd.models.enums import SubscriptionStatus
+        # Get plan name via the entitlement port — no subscription import.
+        from vbwd.services.entitlement import resolve_entitlement_provider
 
-        plan_name = "Unknown"
-        subscription = Subscription.query.filter(
-            Subscription.user_id == user_id,
-            Subscription.status.in_(
-                [SubscriptionStatus.ACTIVE, SubscriptionStatus.TRIALING]
-            ),
-        ).first()
-        if subscription and subscription.tarif_plan:
-            plan_name = subscription.tarif_plan.name
+        plan_name = (
+            resolve_entitlement_provider().current_plan_name(user_id) or "Unknown"
+        )
 
         session_service = _get_taro_services()
 
