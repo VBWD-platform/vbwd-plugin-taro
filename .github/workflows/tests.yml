@@ -34,6 +34,20 @@ jobs:
           repository: VBWD-platform/vbwd-plugin-chat
           path: vbwd-backend/plugins/chat
 
+      # ── 2c. Clone subscription dependency (taro declares dependencies=["subscription"]) ──
+      - name: Clone subscription plugin
+        uses: actions/checkout@v4
+        with:
+          repository: VBWD-platform/vbwd-plugin-subscription
+          path: vbwd-backend/plugins/subscription
+
+      # ── 2d. Clone email (subscription's declared dependency) ──────────────
+      - name: Clone email plugin
+        uses: actions/checkout@v4
+        with:
+          repository: VBWD-platform/vbwd-plugin-email
+          path: vbwd-backend/plugins/email
+
       # ── 3. Style checks (black · flake8 · mypy) ───────────────────────────
       - name: Set up Python 3.11
         uses: actions/setup-python@v5
@@ -97,6 +111,10 @@ jobs:
       - name: Enable plugin
         working-directory: vbwd-backend
         run: |
+          # taro declares dependencies=["subscription"]; enable its dependency
+          # chain (email -> subscription) before taro so enable_plugin passes.
+          docker compose exec -T api flask plugins enable email || true
+          docker compose exec -T api flask plugins enable subscription || true
           docker compose exec -T api flask plugins enable taro \
             && echo "Plugin taro enabled." \
             || echo "Plugin taro already enabled or not registerable — continuing."

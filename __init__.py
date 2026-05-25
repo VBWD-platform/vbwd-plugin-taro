@@ -33,7 +33,7 @@ class TaroPlugin(BasePlugin):
             version="1.0.0",
             author="VBWD Team",
             description="Tarot card reading with LLM-powered interpretations",
-            dependencies=[],
+            dependencies=["subscription"],
         )
 
     def initialize(self, config: Optional[Dict[str, Any]] = None) -> None:
