@@ -27,6 +27,13 @@ jobs:
         with:
           path: vbwd-backend/plugins/taro
 
+      # ── 2b. Clone bot_base dependency (taro's bot consumer imports it) ────
+      - name: Clone bot_base dependency
+        uses: actions/checkout@v4
+        with:
+          repository: VBWD-platform/vbwd-plugin-bot-base
+          path: vbwd-backend/plugins/bot_base
+
       # ── 2b. Clone chat plugin (taro runtime dependency) ──────────────────
       - name: Clone chat plugin
         uses: actions/checkout@v4
