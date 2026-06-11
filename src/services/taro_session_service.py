@@ -1,4 +1,5 @@
 """TaroSessionService - business logic for Taro sessions."""
+from dataclasses import dataclass
 from typing import Optional, Tuple, List
 from datetime import timedelta
 from vbwd.utils.datetime_utils import utcnow
@@ -19,6 +20,31 @@ from plugins.chat.src.llm_adapter import LLMAdapter, LLMError
 from plugins.taro.src.services.prompt_service import PromptService
 
 logger = logging.getLogger(__name__)
+
+# Positions for a full free reading, in spread order (PAST → PRESENT → FUTURE).
+FULL_READING_POSITIONS = [
+    CardPosition.PAST,
+    CardPosition.PRESENT,
+    CardPosition.FUTURE,
+]
+# A single-card pull stands alone in the PRESENT.
+SINGLE_CARD_POSITION = CardPosition.PRESENT
+
+
+@dataclass(frozen=True)
+class FreeReadingCard:
+    """An interpreted card from an anonymous, free (non-persisted) reading.
+
+    Produced by :meth:`TaroSessionService.draw_free_reading` for the taro bot
+    consumer (S45.3). It carries no session/user/token state: a free reading is
+    never written to the database and never bills tokens — taro-over-bot is a
+    free teaser, paid readings stay web-only.
+    """
+
+    arcana_name: str
+    orientation: str
+    position: str
+    interpretation: str
 
 
 class TaroSessionService:
@@ -323,6 +349,52 @@ class TaroSessionService:
             else arcana.reversed_meaning
         )
         return f"{arcana.name}: {meaning}"
+
+    def draw_free_reading(self, card_count: int = 1) -> List["FreeReadingCard"]:
+        """Produce an anonymous, free reading with no persistence and no billing.
+
+        Reuses taro's existing reading primitives — random Arcana selection
+        (:meth:`ArcanaRepository.get_random`), the 70/30 upright/reversed roll,
+        and the per-card interpretation (:meth:`_generate_card_interpretation`,
+        the same logic the web spread uses) — but writes **no** ``TaroSession``
+        or ``TaroCardDraw`` row and debits **no** tokens. This backs the taro
+        bot consumer (S45.3): a free teaser available to any sender, linked or
+        not. Paid readings stay on the web ``create_session`` path.
+
+        Args:
+            card_count: 1 for a single-card pull (``/draw``), 3 for a full
+                reading (``/reading``).
+
+        Returns:
+            A list of :class:`FreeReadingCard`, one per drawn Arcana.
+        """
+        arcanas = self.arcana_repo.get_random(count=card_count)
+        if len(arcanas) == 1:
+            positions = [SINGLE_CARD_POSITION]
+        else:
+            positions = FULL_READING_POSITIONS[: len(arcanas)]
+
+        cards: List[FreeReadingCard] = []
+        for arcana, position in zip(arcanas, positions):
+            is_upright = randint(1, 100) <= 70
+            orientation = (
+                CardOrientation.UPRIGHT if is_upright else CardOrientation.REVERSED
+            )
+            interpretation = self._generate_card_interpretation(
+                arcana=arcana,
+                position=position,
+                orientation=orientation,
+            )
+            cards.append(
+                FreeReadingCard(
+                    arcana_name=arcana.name,
+                    orientation=orientation.value,
+                    position=position.value,
+                    interpretation=interpretation,
+                )
+            )
+
+        return cards
 
     def get_session(self, session_id: str) -> Optional[TaroSession]:
         """Get session by ID."""

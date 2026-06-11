@@ -73,5 +73,10 @@
     "type": "string",
     "default": "The cards have spoken. Do you seek a detailed explanation of each card, or shall we explore how they relate to your situation?",
     "description": "Greeting message shown after cards are drawn"
+  },
+  "bot_enabled": {
+    "type": "boolean",
+    "default": false,
+    "description": "Expose the free /draw and /reading tarot commands over connected messaging adapters (Telegram, etc.). Readings over the bot are always free and anonymous; paid readings stay web-only."
   }
 }

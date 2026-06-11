@@ -32,6 +32,13 @@
         { "key": "follow_up_question_template", "label": "Follow-up Question", "component": "textarea", "description": "Template for follow-up questions. Variables: {{cards_context}}, {{question}}" },
         { "key": "initial_greeting", "label": "Initial Greeting", "component": "textarea", "description": "Greeting message shown after cards are drawn" }
       ]
+    },
+    {
+      "id": "bot",
+      "label": "Bot",
+      "fields": [
+        { "key": "bot_enabled", "label": "Enable Free Bot Readings", "component": "checkbox", "description": "Expose free /draw and /reading commands over messaging adapters. Bot readings are always free and anonymous; paid readings stay web-only." }
+      ]
     }
   ]
 }
